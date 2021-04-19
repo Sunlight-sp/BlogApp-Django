@@ -1,0 +1,63 @@
+
+{% extends 'blog/base.html' %}
+
+{% block body %}
+<!--
+<ul>
+    {% for post in posts %}
+    <li>
+        {{post.author}} -- {{post.date}} <hr>
+        {{post.title}} <br>
+        {{post.description}}
+        <br><br><br>
+    </li>
+    {% endfor %}
+</ul>
+
+-->
+
+
+        <div class="container my-4">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <h4>Blog--{{username}}</h4>
+                    <span>
+                    {% if is_following and not flag %}
+                        <a href="{% url 'follow' username %}">Unfollow</a>
+                    {% elif not is_following and not flag %}
+                        <a href="{% url 'follow' username %}">Follow</a>
+                    {% endif %}
+                    </span>
+                    <br> <a href="{% url 'follower' username %}">Followers</a>: <b> {{follower_count}}</b>
+                    <br> <a href="{% url 'following' username %}">Following</a>: <b> {{following_count}}</b>
+                    {% if not flag %}
+                        <br> <a href="{% url 'chathome' username %}">Message</a>
+                    {% endif %}
+
+                </li>
+
+                {% for post in posts %}
+
+                        <li class="list-group-item list-group-item-success mt-2"><h5>{{ post.title }}</h5><small>Created: {{post.author}} -- {{post.date}}</small>
+                                {{post.description}}
+                        </li>
+
+                        <span>
+                            <a href="{% url 'like' post.id %}" class="btn btn-primary btn-sm">Like {{ post.like.count }}</a>
+                            
+                         <!--{{request.user}}--{{post.author}}-->
+                            {% if request.user == post.author %}
+                            <a href="{% url 'edit' post.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'delete' post.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            {% endif %}
+
+
+                        </span>
+
+
+
+                {% endfor %}
+            </ul>
+        </div>
+
+{% endblock body %}

@@ -1,0 +1,39 @@
+{% extends 'blog/base.html' %}
+
+
+
+{% block body %}
+
+
+<ul>
+    {% for post in posts %}
+    <li>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'userProfile' post.author %}">{{post.author}}</a>
+        {% else %}
+            <a href="{% url 'userProfileAnony' post.author %}">{{post.author}}</a>
+        {% endif %}
+
+
+        -- {{post.date}} <hr>
+        <!--{{post.title}} <br>-->
+        <a href="{% url 'details' post.id %}">{{post.title}}</a>
+        <br><br><br>
+    </li>
+
+
+
+
+
+    {% endfor %}
+</ul>
+
+
+
+
+
+
+
+
+{% endblock body %}
+
